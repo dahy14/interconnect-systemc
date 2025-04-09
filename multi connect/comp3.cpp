@@ -10,7 +10,7 @@ namespace TTT {
 		socks2.register_b_transport(this, &comp3::comp3_b_transport);
 		for (int i = 0; i < SIZE; i++) 
 		{
-			mem[i] = 0xDEAD0000 | 0xF001;
+			mem[i] = 0x00000000;
 		};
 	}
 
@@ -28,7 +28,7 @@ namespace TTT {
 			<< "COMMAND: " << cmd << ",\n"
 			<< "ADDRESS: " << std::hex << adr << ",\n"
 			<< "POINTER: " << std::hex << &ptr << ",\n"
-			<< "  VALUE: " << std::hex << reinterpret_cast<sc_dt::uint64*> (*ptr) << ",\n"
+			<< "  VALUE: " << std::hex << *reinterpret_cast<unsigned int*>(ptr) << ",\n"
 			<< " LENGTH: " << len << ",\n"
 			<< " SWIDTH: " << wid << "\n"
 			<< "}\n" << std::endl;
@@ -41,12 +41,23 @@ namespace TTT {
 		if (cmd == tlm::TLM_READ_COMMAND)
 		{
 			std::memcpy(ptr, &mem[adr], len);
+		
+			std::cout << "DATA FROM TO\n"
+				<< "DATA: " << std::hex << mem[adr] << "\n" 
+				<< "MEM ADDR: " << std::hex << adr << "\n"
+				<< "COPIED TO : " << std::hex << &ptr << "\n"
+				<< "COPIED VAL : " << std::hex << *reinterpret_cast<unsigned int*>(ptr) << "\n"
+				<< std::endl;
+		
+
 		}
 		else if (cmd == tlm::TLM_WRITE_COMMAND) 
 		{
 			std::memcpy(&mem[adr], ptr, len);
+			std::cout << "DATA COPIED TO\n"
+				<< "MEMORY: " << std::hex << mem[adr] << std::endl;
 		};
-		trans.set_response_status(tlm::TLM_OK_RESPONSE);
+				trans.set_response_status(tlm::TLM_OK_RESPONSE);
 
 	}
 }

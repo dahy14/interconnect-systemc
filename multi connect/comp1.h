@@ -14,8 +14,10 @@ namespace TTT {
 		comp1(sc_core::sc_module_name name);
 		tlm_utils::simple_initiator_socket<comp1> socks1;
 		void thread_process(); 
+		void thread_process2();
 	private: 
 		sc_dt::uint64 data;
+		sc_core::sc_event write_done_event;
 	};
 }
 #endif
