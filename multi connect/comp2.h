@@ -21,7 +21,9 @@ namespace TTT {
 
 		// for initiator socket
 		tlm_utils::simple_initiator_socket<comp2> socks2;
-		void thread_process();		
+		void thread_process();
+		
+
 		tlm::tlm_command	cmd;
 		sc_dt::uint64		adr;
 		unsigned char*		ptr;
